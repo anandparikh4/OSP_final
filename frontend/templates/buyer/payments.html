@@ -1,0 +1,59 @@
+{% extends "buyer/base.html" %}
+
+{% block title %}Pending Payments{% endblock title %}
+
+{% block main %}
+<form method="GET" id="my_form"></form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sr.No</th>
+            <th scope="col">Item Name</th>
+            <th scope="col">Item ID</th>
+            <th scope="col">Seller Name</th>
+            <th scope="col">Seller ID</th>
+            <th scope="col">Seller Mail</th>
+            <th scope="col">Amount</th>
+        </tr>
+    </thead>
+
+    {% for order in orders %}
+        <tbody>
+        {% if order.request_status == "ACCEPTED" %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{order.item.name}}</td>
+            <td>{{order.item.uid}}</td>
+            <td>{{order.seller.name}}</td>
+            <td>{{order.seller.uid}}</td>
+            <td>{{order.seller.email}}</td>
+            <td>{{order.offer_price}}</td>
+            <td>
+                <form action="/buyer/payments" method="POST">
+                    <input type="text" name="uid" value="{{order.uid}}" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Pay</button>
+                </form>
+            </td>
+        </tr>
+        {% endif %}
+        </tbody>
+    {% endfor %}
+</table>
+
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}

@@ -1,0 +1,79 @@
+{% extends "seller/base.html" %}
+
+{% block title %}Upload Item{% endblock title %}
+
+{% block main %}
+
+<form action="/seller/upload_item" method="POST" enctype="multipart/form-data">
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" placeholder="Name" required>
+            </div>
+        </div>
+
+        <select class="form-select" id="uid" name = "uid" required>
+                    <option selected disabled value="">Category</option>
+                    <option>all</option>
+                    {% for category in categories %}
+                    <option value = {{category.uid}} > {{category.name}} </option>
+                    {% endfor %}
+        </select>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Price</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" name="price" placeholder="Price" required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Age</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" name="age" placeholder="age">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Manufacturer Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="manufacturer" placeholder="Manufacturer Name" required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="description" placeholder="Description">
+            </div>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="is_heavy" name="is_heavy">
+          <label class="form-check-label">Heavy Item</label>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-primary">Upload Item</button>
+            </div>
+        </div>
+
+</form>
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}

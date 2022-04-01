@@ -1,0 +1,53 @@
+{% extends "seller/base.html" %}
+
+{% block title %}Pending Payments{% endblock title %}
+
+{% block main %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sr.No.</th>
+            <th scope="col">Item Name</th>
+            <th scope="col">Item ID</th>
+            <th scope="col">Buyer Name</th>
+            <th scope="col">Buyer ID</th>
+            <th scope="col">Buyer Email</th>
+            <th scope="col">Buyer Telephone</th>
+            <th scope="col">Amount</th>
+        </tr>
+    </thead>
+
+    {% for request in orders %}
+        <tbody>
+        {% if request.request_status == "ACCEPTED" %}
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{request.item.name}}</td>
+            <td>{{request.item.uid}}</td>
+            <td>{{request.buyer.name}}</td>
+            <td>{{request.buyer.uid}}</td>
+            <td>{{request.buyer.email}}</td>
+            <td>{{request.buyer.telephone}}</td>
+            <td>{{request.offer_price}}</td>
+
+        </tr>
+        {% endif %}
+        </tbody>
+    {% endfor %}
+</table>
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}

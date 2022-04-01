@@ -1,0 +1,51 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Manage Buyers{% endblock title %}
+
+{% block main %}
+<form method="GET" id="my_form"></form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sr. NO</th>
+            <th scope="col">Name</th>
+            <th scope="col">ID</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thead>
+
+    {% for buyer in buyers %}
+        <tbody>
+        <tr>
+
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{buyer.name}}</td>
+            <td>{{buyer.uid}}</td>
+            <td>{{buyer.email}}</td>
+            <td>
+                <form action="/manager/manage_buyers" method="POST">
+                    <input type="text" name="uid" value="{{buyer.uid}}" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Remove</button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+    {% endfor %}
+</table>
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}

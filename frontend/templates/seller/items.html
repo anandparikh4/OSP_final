@@ -1,0 +1,50 @@
+{% extends "seller/base.html" %}
+
+{% block title %}Items{% endblock title %}
+
+{% block main %}
+<form method="GET" id="my_form"></form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sr.No</th>
+            <th scope="col">Item Name</th>
+            <th scope="col">Item ID</th>
+            <th scope="col">Item Price</th>
+        </tr>
+    </thead>
+
+    {% for product in products %}
+        <tbody>
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{product.name}}</td>
+            <td>{{product.uid}}</td>
+            <td>{{product.price}}</td>
+            <td>
+                <form action="/seller/items" method="POST">
+                    <input type="text" name="uid" value="{{product.uid}}" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Remove</button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+    {% endfor %}
+</table>
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}

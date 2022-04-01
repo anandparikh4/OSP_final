@@ -1,0 +1,38 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Add Category{% endblock title %}
+
+{% block main %}
+
+<form action="/manager/add_category" method="POST">
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">New Category Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" placeholder="Name" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-primary">Add Category</button>
+            </div>
+        </div>
+
+</form>
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}

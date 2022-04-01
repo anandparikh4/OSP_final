@@ -1,0 +1,81 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Manager Home{% endblock title %}
+
+{% block main %}
+    <form class="form-inline my-2 my-lg-0" method = "POST" action = "/manager">
+        SEARCH BAR:
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name = "name" required>
+
+        <select class="form-select" id="category" name = "category" required>
+            <option selected disabled value="">Category</option>
+            {% for category in categories %}
+            <option value = {{category.uid}}>{{category.name}}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-info" type="submit">Search</button>
+    </form>
+
+<form method="GET" id="my_form"></form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sr.NO</th>
+            <th scope="col">Name</th>
+            <th scope="col">Item ID</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Seller ID</th>
+        </tr>
+    </thead>
+
+    {% for item in items %}
+        <tbody>
+        <tr>
+
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.uid}}</td>
+            <td>{{item.category.name}}</td>
+            <td>{{item.price}}</td>
+            <td>{{item.seller.uid}}</td>
+            <td>
+
+                <form action="/manager/remove" method="POST">
+                    <input type="text" name="uid" value="{{item.uid}}" hidden>
+                    <button type="submit" class="btn btn-primary btn-sm">Reject</button>
+                </form>
+
+                <form action="/manager/change_category" method="POST">
+                    <input type="text" name="item" value="{{item.uid}}" hidden>
+                    <select class="form-select" name = "category" required>
+                        <option selected disabled value="">Category</option>
+                        {% for category in categories %}
+                        <option value = {{category.uid}}>{{category.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm">Change Category</button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    {% endfor %}
+</table>
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}

@@ -1,0 +1,58 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Help Negotiations{% endblock title %}
+
+{% block main %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sr.No.</th>
+            <th scope="col">Item Name</th>
+            <th scope="col">Item ID</th>
+            <th scope="col">Buyer Name</th>
+            <th scope="col">Buyer ID</th>
+            <th scope="col">Buyer Email</th>
+            <th scope="col">Buyer Telephone</th>
+            <th scope="col">Seller Name</th>
+            <th scope="col">Seller ID</th>
+            <th scope="col">Seller Email</th>
+            <th scope="col">Seller Telephone</th>
+            <th scope="col">Offer Price</th>
+        </tr>
+    </thead>
+
+    {% for requests in pending_orders %}
+        <tbody>
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{request.item.name}}</td>
+            <td>{{request.item.uid}}</td>
+            <td>{{request.buyer.name}}</td>
+            <td>{{request.buyer.uid}}</td>
+            <td>{{request.buyer.email}}</td>
+            <td>{{request.buyer.telephone}}</td>
+            <td>{{request.seller.name}}</td>
+            <td>{{request.seller.uid}}</td>
+            <td>{{request.seller.email}}</td>
+            <td>{{request.seller.telephone}}</td>
+            <td>{{request.offer_price}}</td>
+        </tr>
+        </tbody>
+    {% endfor %}
+</table>
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}

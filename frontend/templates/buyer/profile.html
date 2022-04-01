@@ -1,0 +1,45 @@
+{% extends "buyer/base.html" %}
+
+{% block title %}Profile Page{% endblock title %}
+
+{% block main %}
+<h2>Your Information</h2>
+<hr>
+<h4>User ID : {{buyer.uid}}</h4>
+<hr>
+<h4>Name : {{buyer.name}}</h4>
+<hr>
+<h4>Email : {{buyer.email}}</h4>
+<hr>
+<h4>Phone No. : {{buyer.telephone}}</h4>
+<hr>
+<h4>Address :   {{buyer.address.residence_no}} , {{buyer.address.street}} , {{buyer.address.locality}} , {{buyer.address.city}} , {{buyer.address.state}}</h4>
+<hr>
+<h4>Change your password : </h4>
+<hr>
+    <form class="form-inline my-2 my-lg-0" method = "POST" action = "/buyer/profile">
+        Old password:
+        <input class="form-control mr-sm-2" type="password" placeholder="old password" name = "old_password" required>
+        New password:
+        <input class="form-control mr-sm-2" type="password" placeholder="new password" name = "new_password" required>
+
+        <button class="btn btn-info" type="submit">Confirm</button>
+    </form>
+
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+
+{% endblock main %}

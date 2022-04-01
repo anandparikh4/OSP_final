@@ -1,0 +1,50 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Audit{% endblock title %}
+
+{% block main %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sr.No.</th>
+            <th scope="col">Item Name</th>
+            <th scope="col">Item ID</th>
+            <th scope="col">Buyer Name</th>
+            <th scope="col">Buyer ID</th>
+            <th scope="col">Seller Name</th>
+            <th scope="col">Seller ID</th>
+            <th scope="col">Transaction amount</th>
+        </tr>
+    </thead>
+
+    {% for transaction in payments %}
+        <tbody>
+        <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{transaction.item_name}}</td>
+            <td>{{transaction.item_id}}</td>
+            <td>{{transaction.buyer_name}}</td>
+            <td>{{transaction.buyer_id}}</td>
+            <td>{{transaction.seller_name}}</td>
+            <td>{{transaction.seller_id}}</td>
+            <td>{{transaction.offer_price}}</td>
+        </tr>
+        </tbody>
+    {% endfor %}
+</table>
+{% block scripts %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+			{% for category, message in messages %}
+			{% if category=="error" %}
+			<div class="mx-auto alert alert-danger text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% else %}
+            <div class="mx-auto alert alert-success text-center" role="alert" style="width: fit-content;">
+				{{message}}
+			</div>
+			{% endif %}
+			{% endfor %}
+			{% endwith %}
+{% endblock scripts %}
+{% endblock main %}
