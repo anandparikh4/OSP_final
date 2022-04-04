@@ -275,7 +275,7 @@ def audit():
 @is_manager
 @login_required
 def help_negotiations():
-    return render_template("manager/help_negotiations.html" , )
+    return render_template("manager/help_negotiations.html" , pending_orders = Order.objects())
 
 @app.route("/manager/add_category" , methods = ["GET" ,"POST"])
 @is_manager
